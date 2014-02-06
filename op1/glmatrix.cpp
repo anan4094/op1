@@ -65,18 +65,19 @@ void multiplyMatrix3(pmatrix3 m1,pmatrix3 m2){
 		m1->m[i][3]=tmp[3];
 	}
 }
-void convertByMatrix3(pmatrix3 m1,float *_src,float *_dst,int size){
-	float *src=_src,*dst=_dst;
+void convertByMatrix3(pmatrix3 m1,vertex *vt,vertex *_dst,int size){
+	float *src=vt->_vertex.f,*dst=_dst->_vertex.f;
 	for (int i = 0; i < size; i++){
 		dst[0]=src[0]*m1->m[0][0]+src[1]*m1->m[1][0]+src[2]*m1->m[2][0]+m1->m[3][0];
 		dst[1]=src[0]*m1->m[0][1]+src[1]*m1->m[1][1]+src[2]*m1->m[2][1]+m1->m[3][1];
 		dst[2]=src[0]*m1->m[0][2]+src[1]*m1->m[1][2]+src[2]*m1->m[2][2]+m1->m[3][2];
-		float tmp =src[0]*m1->m[0][3]+src[1]*m1->m[1][3]+src[2]*m1->m[2][3]+m1->m[3][3];
-		dst[0]/=tmp;
-		dst[1]/=tmp;
-		dst[2]/=tmp;
-		src += 3;
-		dst += 3;
+		dst[3] =src[0]*m1->m[0][3]+src[1]*m1->m[1][3]+src[2]*m1->m[2][3]+m1->m[3][3];
+		src = vt[i+1]._vertex.f;
+		dst = _dst[i+1]._vertex.f;
+		_dst[i]._color.r = vt[i]._color.r;
+		_dst[i]._color.g = vt[i]._color.g;
+		_dst[i]._color.b = vt[i]._color.b;
+		_dst[i]._color.a = vt[i]._color.a;
 	}
 }
 
@@ -106,9 +107,15 @@ void perspective(pmatrix3 m,float n,float f,float l,float r,float t,float b){
 	multiplyMatrix3(m,&tmp);
 }
 
-void viewport(float *v,int *p,int w,int h,unsigned int size){
+void viewport(vertex *v,pviewpoint p,int w,int h,unsigned int size){
 	for (int i = 0; i < size; i++){
-		p[2*i] = (int)((v[3*i]+1)*w/2);
-		p[2*i+1] = (int)((v[3*i+1]+1)*h/2);
+		p[i].x = (int)((v[i]._vertex.x/v[i]._vertex.w+1)*w/2);
+		p[i].y = (int)((v[i]._vertex.y/v[i]._vertex.w+1)*h/2);
+		p[i].z = (int)v[i]._vertex.w;
+		p[i].d = v[i]._vertex.z/v[i]._vertex.w;
+		p[i]._color.r = v[i]._color.r;
+		p[i]._color.g = v[i]._color.g;
+		p[i]._color.b = v[i]._color.b;
+		p[i]._color.a = v[i]._color.a;
 	}
 }

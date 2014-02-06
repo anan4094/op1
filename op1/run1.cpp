@@ -3,22 +3,31 @@
 #include "glmatrix.h"
 #include <stdio.h>
 #include <math.h>
-#define TRA_NUM 8
+#define TRA_NUM 12
 GLubyte* colorBuffer = 0;
+
+int* depthBuffer = 0;
+
 int vertexs[] = {-50,50,50,50,-50,-50};
 int vertexstmp[6] = {0};
 
-float vertexs3[] = {-50,50,50,50,50,50,-50,-50,50
-	,-50,-50,50,50,50,50,50,-50,50//front
-	,-50,50,50,50,50,-50,50,50,50
-	,-50,50,50,50,50,-50,-50,50,-50//top
-	,-50,50,-50,50,50,-50,-50,-50,-50
-	,-50,-50,-50,50,50,-50,50,-50,-50//back
-	,-50,-50,50,50,-50,-50,50,-50,50
-	,-50,-50,50,50,-50,-50,-50,-50,-50//bottom
+vertex cube[] = {
+	{-50,50,50,1,1,0,0},{50,50,50,1,1,0,0},{-50,-50,50,1,1,0,0}
+	,{-50,-50,50,1,1,0,0},{50,50,50,1,1,0,0},{50,-50,50,1,1,0,0}//front
+	,{-50,50,50,1,.5f,0,0},{50,50,-50,1,.5f,0,0},{50,50,50,1,.5f,0,0}
+	,{-50,50,50,1,.5f,0,0},{50,50,-50,1,.5f,0,0},{-50,50,-50,1,.5f,0,0}//top
+	,{-50,50,-50,1,1,.5f,0},{50,50,-50,1,1,.5f,0},{-50,-50,-50,1,1,.5f,0}
+	,{-50,-50,-50,1,1,.5f,0},{50,50,-50,1,1,.5f,0},{50,-50,-50,1,1,.5f,0}//back
+	,{-50,-50,50,1,1,1,0},{50,-50,-50,1,1,1,0},{50,-50,50,1,1,1,0}
+	,{-50,-50,50,1,1,1,0},{50,-50,-50,1,1,1,0},{-50,-50,-50,1,1,1,0}//bottom
+	,{-50,-50,50,1,0,1,1},{-50,50,50,1,0,1,1},{-50,50,-50,1,0,1,1}
+	,{-50,-50,-50,1,0,1,1},{-50,-50,50,1,0,1,1},{-50,50,-50,1,0,1,1}//left
+	,{50,-50,50,1,0,1,.5f},{50,50,50,1,0,1,.5f},{50,50,-50,1,0,1,.5f}
+	,{50,-50,-50,1,0,1,.5f},{50,-50,50,1,0,1,.5f},{50,50,-50,1,0,1,.5f}//right
 };
-float vertexstmp3[TRA_NUM*9]={0};
-int ivertexstmp3[TRA_NUM*6]={0};
+
+vertex cubetmp[3*TRA_NUM]={0};
+viewpoint viewpoints[TRA_NUM*3]={0};
 float stamp = 0;
 volatile int _status;
 const float sqrtthird = .57735f;
@@ -83,8 +92,11 @@ void OP2::Display(bool auto_redraw){
 			tmp++;
 		}
 	}
+	for(int i=0;i<width*height;i++){
+		depthBuffer[i]=9999;
+	}
 	//2dƽ�滭ͼ
-	stamp+=.02;
+	stamp+=.02f;
 	loadIdentityMatrix(&this->m);
 	rotate(&this->m,stamp);
 	transition(&this->m,240,240);
@@ -99,9 +111,9 @@ void OP2::Display(bool auto_redraw){
 	transition3(&this->m3,0,0,450);
 	
 	perspective(&this->m3,400,500,-300,300,300,-300);
-	convertByMatrix3(&this->m3,vertexs3,vertexstmp3,3*TRA_NUM);
-	viewport(vertexstmp3,ivertexstmp3,width,height,3*TRA_NUM);
-	ptriangles(colorBuffer,width,height,ivertexstmp3,TRA_NUM);
+	convertByMatrix3(&this->m3,cube,cubetmp,3*TRA_NUM);
+	viewport(cubetmp,viewpoints,width,height,3*TRA_NUM);
+	ptriangles(colorBuffer,depthBuffer,width,height,viewpoints,TRA_NUM);
 
 	glDrawPixels(width, height, GL_RGB, GL_UNSIGNED_BYTE, colorBuffer);
 	base::Display(auto_redraw);
@@ -114,6 +126,7 @@ void OP2::MainLoop(void){
 
 void OP2::Finalize(void){
 	free(colorBuffer);
+	free(depthBuffer);
 }
 
 void OP2::Reshape(int width, int height){
@@ -127,5 +140,10 @@ void OP2::Reshape(int width, int height){
 		free(colorBuffer);
 		colorBuffer = 0;
 	}
+	if (depthBuffer){
+		free(depthBuffer);
+		depthBuffer = 0;
+	}
 	colorBuffer = new GLubyte[width*height*3];
+	depthBuffer = new int[width*height];
 }
