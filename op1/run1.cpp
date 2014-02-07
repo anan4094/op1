@@ -6,7 +6,7 @@
 #define TRA_NUM 12
 GLubyte* colorBuffer = 0;
 
-int* depthBuffer = 0;
+float* depthBuffer = 0;
 
 int vertexs[] = {-50,50,50,50,-50,-50};
 int vertexstmp[6] = {0};
@@ -108,9 +108,9 @@ void OP2::Display(bool auto_redraw){
 	//3dÁ¢Ìå»­Í¼
 	loadIdentityMatrix3(&this->m3);
 	rotate3(&this->m3,sqrtthird,sqrtthird,sqrtthird,-stamp);
-	transition3(&this->m3,0,0,450);
+	transition3(&this->m3,0,0,350);
 	
-	perspective(&this->m3,400,500,-300,300,300,-300);
+	perspective(&this->m3,290,410,-300,300,300,-300);
 	convertByMatrix3(&this->m3,cube,cubetmp,3*TRA_NUM);
 	viewport(cubetmp,viewpoints,width,height,3*TRA_NUM);
 	ptriangles(colorBuffer,depthBuffer,width,height,viewpoints,TRA_NUM);
@@ -145,5 +145,5 @@ void OP2::Reshape(int width, int height){
 		depthBuffer = 0;
 	}
 	colorBuffer = new GLubyte[width*height*3];
-	depthBuffer = new int[width*height];
+	depthBuffer = new float[width*height];
 }

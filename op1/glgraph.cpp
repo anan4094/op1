@@ -74,29 +74,101 @@ void pline(unsigned char*map,int w,int h,int x1,int y1,int x2,int y2){
 	}
 }
 
+void plineByDepth(unsigned char*map,float *dem,int w,int h,pviewpoint beg,pviewpoint end){
+	int x1=beg->x,y1=beg->y,x2=end->x,y2=end->y;
+	float z1=beg->z,z2=end->z;
+	int dx = x2 - x1
+		,dy = y2 - y1
+		,d
+		,x = x1
+		,y = y1
+		,xi = 1
+		,yi = 1
+		;
+	if( dy < 0){
+		yi = -1;
+		dy = -dy;
+	}
+	if( dx < 0){
+		xi = -1;
+		dx = -dx;
+	}
+	if(dy <= dx){
+		float dz = (z2-z1)/dx; 
+		d = (dy<<1) - dx;
+		x=x1;
+		while(x!=x2){
+			if(!(y>=h||y<0)&&!(x>=w||x<0)){
+				if(z1<dem[y*w+x]){
+					unsigned char*pix = &map[(y*w+x)*3];
+					*pix = g_red;
+					pix++;
+					*pix = g_green;
+					pix++;
+					*pix = g_blue;
+					dem[y*w+x]=z1;
+				}
+			}
+			if(d>0){
+				y += yi;
+				d = d + (dy<<1) - (dx<<1);
+			}else{
+				d = d + (dy<<1);
+			}
+			x+=xi;
+			z1+=dz;
+		}
+	}else{
+		float dz = (z2-z1)/dy; 
+		d = (dx<<1) - dy;
+		y=y1;
+		while(y!=y2){
+			if(!(y>=h||y<0)&&!(x>=w||x<0)){
+				if(z1<dem[y*w+x]){
+					unsigned char*pix = &map[(y*w+x)*3];
+					*pix = g_red;
+					pix++;
+					*pix = g_green;
+					pix++;
+					*pix = g_blue;
+					dem[y*w+x]=z1;
+				}
+			}
+			if(d>0){
+				x += xi;
+				d = d + (dx<<1) - (dy<<1);
+			}else{
+				d = d + (dx<<1);
+			}
+			y+=yi;
+			z1+=dz;
+		}
+	}
+}
+
 void ptriangle(unsigned char*map,int w,int h,int *vs){
 	pline(map,w,h,vs[0],vs[1],vs[2],vs[3]);
 	pline(map,w,h,vs[2],vs[3],vs[4],vs[5]);
 	pline(map,w,h,vs[4],vs[5],vs[0],vs[1]);
 }
 
-void ptriangles(unsigned char*map,int *dem,int w,int h,pviewpoint vs,int size){
+void ptriangles(unsigned char*map,float *dem,int w,int h,pviewpoint vs,int size){
 	for (int i = 0; i < size; i++){
-		pline(map,w,h, vs[0].x,vs[0].y,vs[1].x,vs[1].y);
-		pline(map,w,h,vs[1].x,vs[1].y,vs[2].x,vs[2].y);
-		pline(map,w,h,vs[2].x,vs[2].y,vs[0].x,vs[0].y);
+		plineByDepth(map,dem,w,h,&vs[0],&vs[1]);
+		plineByDepth(map,dem,w,h,&vs[1],&vs[2]);
+		plineByDepth(map,dem,w,h,&vs[2],&vs[0]);
 		polyFill(map,dem,w,h,vs);
 		vs+=3;
 	}
 }
 
 //多边形扫描转换
-void polyFill(unsigned char*map,int *dem,int w,int h, pviewpoint o,int length){
+void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length){
 	unsigned char col[3];
 	col[0] = 255*o[0]._color.r;
 	col[1] = 255*o[0]._color.g;
 	col[2] = 255*o[0]._color.b;
-	double a,b,c,d;				// 多边形所在的平面的方程系数 ax + by + cz + d = 0
+	float a,b,c,d;				// 多边形所在的平面的方程系数 ax + by + cz + d = 0
 	// 计算 ax + by + cz + d = 0
 	a = (o[1].y-o[0].y)*(o[2].z-o[0].z)-(o[1].z-o[0].z)*(o[2].y-o[0].y);
 	b = (o[1].z-o[0].z)*(o[2].x-o[0].x)-(o[1].x-o[0].x)*(o[2].z-o[0].z);
@@ -104,10 +176,10 @@ void polyFill(unsigned char*map,int *dem,int w,int h, pviewpoint o,int length){
 	d = - (a * o[0].x + b * o[0].y + c * o[0].z );
 	
 	typedef struct XET{
-		double x,dx,ymax;
-		double z;						// 左交点处多边形所在平面的深度值
-		double dzx;					// 沿扫描线向右走过一个像素时, 多边形所在平面的深度增量. 多于平面方程, dzx = -a/c (c!= 0)
-		double dzy;					// 沿y方向向下移过一根扫描线时, 多边形所在平面的深度增量. 对于平面方程, dzy = b/c (c!= 0)
+		float x,dx,ymax;
+		float z;						// 左交点处多边形所在平面的深度值
+		float dzx;					// 沿扫描线向右走过一个像素时, 多边形所在平面的深度增量. 多于平面方程, dzx = -a/c (c!= 0)
+		float dzy;					// 沿y方向向下移过一根扫描线时, 多边形所在平面的深度增量. 对于平面方程, dzy = b/c (c!= 0)
 		XET * next;
 	}AET,NET;
 	int maxy = 0
@@ -230,10 +302,10 @@ void polyFill(unsigned char*map,int *dem,int w,int h, pviewpoint o,int length){
 				}
 				zx += p->dzx;
 			}
-			// 多边形所在的平面对应下一条扫描线在x=xl处的深度为 zl = zl + dzl * dxl + dzy
+			// 多边形所在的平面对应下一条扫描线在x=xl处的深度为 z = z + dzl * dxl + dzy
 			// 此处课件中dzl其实应为dzx?
 			p->z += p->dzx* p->dx +p->dzy;
-			p->z += p->dzx* p->next->dx +p->next->dzy;
+			p->next->z += p->dzx* p->next->dx +p->next->dzy;
 			p = p->next->next;
 		}
 	}

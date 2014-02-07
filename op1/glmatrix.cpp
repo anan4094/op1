@@ -81,7 +81,7 @@ void convertByMatrix3(pmatrix3 m1,vertex *vt,vertex *_dst,int size){
 	}
 }
 
-void transition3(pmatrix3 m,int x,int y,int z){
+void transition3(pmatrix3 m,float x,float y,float z){
 	matrix3 tmp={1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
 	tmp.m[3][0]=x;
 	tmp.m[3][1]=y;
@@ -100,18 +100,18 @@ void rotate3(pmatrix3 m,float x,float y,float z,float deg){
 
 void perspective(pmatrix3 m,float n,float f,float l,float r,float t,float b){
 	float _a = f/(f-n),_b = -n*f/(f-n);
-	matrix3 tmp = {2.0*n/(r-l),0,0,0
-		,0,2.0*n/(t-b),0,0
+	matrix3 tmp = {2.0f*n/(r-l),0,0,0
+		,0,2.0f*n/(t-b),0,0
 		,(l+r)/(l-r),(b+t)/(b-t),_a,1
 		,0,0,_b,0};
 	multiplyMatrix3(m,&tmp);
 }
 
 void viewport(vertex *v,pviewpoint p,int w,int h,unsigned int size){
-	for (int i = 0; i < size; i++){
+	for (unsigned int i = 0; i < size; i++){
 		p[i].x = (int)((v[i]._vertex.x/v[i]._vertex.w+1)*w/2);
 		p[i].y = (int)((v[i]._vertex.y/v[i]._vertex.w+1)*h/2);
-		p[i].z = (int)v[i]._vertex.w;
+		p[i].z = v[i]._vertex.w;
 		p[i].d = v[i]._vertex.z/v[i]._vertex.w;
 		p[i]._color.r = v[i]._color.r;
 		p[i]._color.g = v[i]._color.g;

@@ -31,7 +31,7 @@ typedef struct matrix3_{
 typedef struct viewpoint_{
 	int x;
 	int y;
-	int z;
+	float z;
 	float d;
 	color _color;
 }viewpoint,*pviewpoint;
@@ -45,7 +45,7 @@ void rotate(pmatrix m,float deg);
 void loadIdentityMatrix3(pmatrix3 m);
 void multiplyMatrix3(pmatrix3 m1,pmatrix3 m2);
 void convertByMatrix3(pmatrix3 m1,vertex *src,vertex *dst,int size);
-void transition3(pmatrix3 m,int x,int y,int z);
+void transition3(pmatrix3 m,float x,float y,float z);
 void rotate3(pmatrix3 m,float x,float y,float z,float deg);
 void perspective(pmatrix3 m,float n,float f,float l,float r,float t,float b);
 void viewport(vertex *v,pviewpoint p,int w,int h,unsigned int size);
