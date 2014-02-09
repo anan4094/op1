@@ -12,18 +12,18 @@ int vertexs[] = {-50,50,50,50,-50,-50};
 int vertexstmp[6] = {0};
 
 vertex cube[] = {
-	{-50,50,50,1,1,0,0},{50,50,50,1,1,0,0},{-50,-50,50,1,1,0,0}
-	,{-50,-50,50,1,1,0,0},{50,50,50,1,1,0,0},{50,-50,50,1,1,0,0}//front
-	,{-50,50,50,1,.5f,0,0},{50,50,-50,1,.5f,0,0},{50,50,50,1,.5f,0,0}
-	,{-50,50,50,1,.5f,0,0},{50,50,-50,1,.5f,0,0},{-50,50,-50,1,.5f,0,0}//top
-	,{-50,50,-50,1,1,.5f,0},{50,50,-50,1,1,.5f,0},{-50,-50,-50,1,1,.5f,0}
-	,{-50,-50,-50,1,1,.5f,0},{50,50,-50,1,1,.5f,0},{50,-50,-50,1,1,.5f,0}//back
-	,{-50,-50,50,1,1,1,0},{50,-50,-50,1,1,1,0},{50,-50,50,1,1,1,0}
-	,{-50,-50,50,1,1,1,0},{50,-50,-50,1,1,1,0},{-50,-50,-50,1,1,1,0}//bottom
-	,{-50,-50,50,1,0,1,1},{-50,50,50,1,0,1,1},{-50,50,-50,1,0,1,1}
-	,{-50,-50,-50,1,0,1,1},{-50,-50,50,1,0,1,1},{-50,50,-50,1,0,1,1}//left
-	,{50,-50,50,1,0,1,.5f},{50,50,50,1,0,1,.5f},{50,50,-50,1,0,1,.5f}
-	,{50,-50,-50,1,0,1,.5f},{50,-50,50,1,0,1,.5f},{50,50,-50,1,0,1,.5f}//right
+	{-50,50,50,1,1,0,0,1,0,0,1},{50,50,50,1,1,0,0,1,0,0,1},{-50,-50,50,1,1,0,0,1,0,0,1}
+	,{-50,-50,50,1,1,0,0,1,0,0,1},{50,50,50,1,1,0,0,1,0,0,1},{50,-50,50,1,1,0,0,1,0,0,1}//back
+	,{-50,50,50,1,.5f,0,0,1,0,1,0},{50,50,-50,1,.5f,0,0,1,0,1,0},{50,50,50,1,.5f,0,0,1,0,1,0}
+	,{-50,50,50,1,.5f,0,0,1,0,1,0},{50,50,-50,1,.5f,0,0,1,0,1,0},{-50,50,-50,1,.5f,0,0,1,0,1,0}//top
+	,{-50,50,-50,1,1,.5f,0,1,0,0,-1},{50,50,-50,1,1,.5f,0,1,0,0,-1},{-50,-50,-50,1,1,.5f,0,1,0,0,-1}
+	,{-50,-50,-50,1,1,.5f,0,1,0,0,-1},{50,50,-50,1,1,.5f,0,1,0,0,-1},{50,-50,-50,1,1,.5f,0,1,0,0,-1}//front
+	,{-50,-50,50,1,1,1,0,1,0,-1,0},{50,-50,-50,1,1,1,0,1,0,-1,0},{50,-50,50,1,1,1,0,1,0,-1,0}
+	,{-50,-50,50,1,1,1,0,1,0,-1,0},{50,-50,-50,1,1,1,0,1,0,-1,0},{-50,-50,-50,1,1,1,0,1,0,-1,0}//bottom
+	,{-50,-50,50,1,0,1,1,1,-1,0,0},{-50,50,50,1,0,1,1,1,-1,0,0},{-50,50,-50,1,0,1,1,1,-1,0,0}
+	,{-50,-50,-50,1,0,1,1,1,-1,0,0},{-50,-50,50,1,0,1,1,1,-1,0,0},{-50,50,-50,1,0,1,1,1,-1,0,0}//left
+	,{50,-50,50,1,0,1,.5f,1,1,0,0},{50,50,50,1,0,1,.5f,1,1,0,0},{50,50,-50,1,0,1,.5f,1,1,0,0}
+	,{50,-50,-50,1,0,1,.5f,1,1,0,0},{50,-50,50,1,0,1,.5f,1,1,0,0},{50,50,-50,1,0,1,.5f,1,1,0,0}//right
 };
 
 vertex cubetmp[3*TRA_NUM]={0};
@@ -43,6 +43,7 @@ BEGIN_APP_DECLARATION(OP2)
 		int height;
 		matrix m;
 		matrix3 m3;
+		matrix3 m3p;
 END_APP_DECLARATION()
 
 DEFINE_APP(OP2, "opengl demo 2")
@@ -61,6 +62,8 @@ void OP2::Initialize(const char * title){
 	glShadeModel(GL_FLAT);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 	loadIdentityMatrix(&this->m);
+	loadIdentityMatrix3(&this->m3p);
+	perspective(&this->m3p,290,410,-300,300,300,-300);
 }
 void OP2::Keyboard(unsigned char key, int x, int y){
 	// 按下Q、q或ESC键时，终止程序
@@ -97,22 +100,22 @@ void OP2::Display(bool auto_redraw){
 	}
 	//2d平面画图
 	stamp+=.02f;
-	loadIdentityMatrix(&this->m);
+	/*loadIdentityMatrix(&this->m);
 	rotate(&this->m,stamp);
 	transition(&this->m,240,240);
 	convertByMatrix(&this->m,vertexs,vertexstmp);
 	convertByMatrix(&this->m,vertexs+2,vertexstmp+2);
 	convertByMatrix(&this->m,vertexs+4,vertexstmp+4);
-	//ptriangle(colorBuffer,width,height,vertexstmp);
+	ptriangle(colorBuffer,width,height,vertexstmp);*/
 
 	//3d立体画图
 	loadIdentityMatrix3(&this->m3);
 	rotate3(&this->m3,sqrtthird,sqrtthird,sqrtthird,-stamp);
 	transition3(&this->m3,0,0,350);
 	
-	perspective(&this->m3,290,410,-300,300,300,-300);
+	
 	convertByMatrix3(&this->m3,cube,cubetmp,3*TRA_NUM);
-	viewport(cubetmp,viewpoints,width,height,3*TRA_NUM);
+	viewport(cubetmp,&this->m3p,viewpoints,width,height,3*TRA_NUM);
 	ptriangles(colorBuffer,depthBuffer,width,height,viewpoints,TRA_NUM);
 
 	glDrawPixels(width, height, GL_RGB, GL_UNSIGNED_BYTE, colorBuffer);

@@ -41,8 +41,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>E:\TDDOWNLOAD\oglpg-8th-edition\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\TDDOWNLOAD\oglpg-8th-edition\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>include\;$(IncludePath)</IncludePath>
+    <LibraryPath>lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

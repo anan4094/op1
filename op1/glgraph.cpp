@@ -1,6 +1,6 @@
 #include "glgraph.h"
 #include <math.h>
-char g_red = 0,g_green = 0,g_blue = 255;
+char g_red = '\255',g_green = '\255',g_blue = '\255';
 void psetcolor(char red,char green,char blue){
 	g_red = red;
 	g_green = green;
@@ -164,10 +164,20 @@ void ptriangles(unsigned char*map,float *dem,int w,int h,pviewpoint vs,int size)
 
 //多边形扫描转换
 void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length){
+	float light[3]={.57735f,-.57735f,-.57735f};
+	float rate = o[0].nx*light[0]+o[0].ny*light[1]+o[0].nz*light[2];//平等光
+	if (rate<0){
+		rate=0;
+	}
+	rate +=.4f;//环境光
+	if(rate>1){
+		rate=1;
+	}
 	unsigned char col[3];
-	col[0] = 255*o[0]._color.r;
-	col[1] = 255*o[0]._color.g;
-	col[2] = 255*o[0]._color.b;
+	col[0] = (unsigned char)255*o[0]._color.r*rate;
+	col[1] = (unsigned char)255*o[0]._color.g*rate;
+	col[2] = (unsigned char)255*o[0]._color.b*rate;
+
 	float a,b,c,d;				// 多边形所在的平面的方程系数 ax + by + cz + d = 0
 	// 计算 ax + by + cz + d = 0
 	a = (o[1].y-o[0].y)*(o[2].z-o[0].z)-(o[1].z-o[0].z)*(o[2].y-o[0].y);
@@ -288,7 +298,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 			ia = static_cast<int>(p->x);
 			ib = static_cast<int>(p->next->x);
 			float zx = p->z;
-			for(int j = ia+1;j<ib;j++){
+			for(int j = ia;j<=ib;j++){
 				if(!(i>=h||i<0)&&!(j>=w||j<0)){
 					if(zx<dem[i*w+j]){
 						dem[i*w+j]= zx;
