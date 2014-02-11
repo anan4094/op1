@@ -326,4 +326,17 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 			p = p->next->next;
 		}
 	}
+    for(int i=miny;i<=maxy;i++){
+//        while (pNet[i]->next) {
+//            NET*p=pNet[i]->next,*q=pNet[i];
+//            while (p->next) {
+//                q = p;
+//                p = p->next;
+//            }
+//            delete p;
+//            q->next = nullptr;
+//        }
+		delete pNet[i];
+	}
+    delete pAet;
 }

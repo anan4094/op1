@@ -53,11 +53,11 @@ void reshape(int width_, int height_){
 	glLoadIdentity();
 	glOrtho(0, width, 0, height, -1, 1);
 	if (colorBuffer){
-		delete colorBuffer;
+		delete[] colorBuffer;
 		colorBuffer = 0;
 	}
 	if (depthBuffer){
-		delete depthBuffer;
+		delete[] depthBuffer;
 		depthBuffer = 0;
 	}
 	colorBuffer = new GLubyte[width*height*3];
@@ -129,6 +129,6 @@ int main(int argc, char ** argv){
     glutKeyboardFunc(keyboard);
     for (;_status;)
         glutCheckLoop();
-    delete colorBuffer;
-    delete depthBuffer;
+    delete []colorBuffer;
+    delete []depthBuffer;
 }
