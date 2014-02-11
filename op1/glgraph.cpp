@@ -1,5 +1,12 @@
 #include "glgraph.h"
 #include <math.h>
+
+#ifdef WIN32
+#define ABS abs
+#else
+#define ABS fabs
+#endif
+
 char g_red = '\255',g_green = '\255',g_blue = '\255';
 void psetcolor(char red,char green,char blue){
 	g_red = red;
@@ -9,7 +16,7 @@ void psetcolor(char red,char green,char blue){
 
 inline bool is_zero(float f)
 {
-	if (abs(f) < 1e-8)
+	if (ABS(f) < 1e-8)
 		return true;
 	return false;
 }

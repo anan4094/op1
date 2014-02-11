@@ -46,7 +46,6 @@ public:
         glutCreateWindow( title ? title : "OpenGL Application" );
         glutDisplayFunc(DisplayFunc);
         glutReshapeFunc(ReshapeFunc);
-
 #ifdef USE_GL3W
         gl3wInit();
 #else
