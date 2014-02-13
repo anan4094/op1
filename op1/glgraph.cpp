@@ -1,5 +1,6 @@
 #include "glgraph.h"
 #include <math.h>
+#include <stdio.h>
 
 #ifdef WIN32
 #define ABS abs
@@ -169,14 +170,15 @@ void ptriangles(unsigned char*map,float *dem,int w,int h,pviewpoint vs,int size)
 	}
 }
 
-//¶à±ßĞÎÉ¨Ãè×ª»»
+//âˆ‚â€¡Â±ï¬‚â€“Å’â€¦Â®âˆšÃ‹â—Šâ„¢ÂªÂª
 void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length){
+    int newc=0,delc=0;
 	float light[3]={.57735f,-.57735f,-.57735f};
-	float rate = o[0].nx*light[0]+o[0].ny*light[1]+o[0].nz*light[2];//Æ½µÈ¹â
+	float rate = o[0].nx*light[0]+o[0].ny*light[1]+o[0].nz*light[2];//âˆ†Î©ÂµÂ»Ï€â€š
 	if (rate<0){
 		rate=0;
 	}
-	rate +=.4f;//»·¾³¹â
+	rate +=.4f;//Âªâˆ‘Ã¦â‰¥Ï€â€š
 	if(rate>1){
 		rate=1;
 	}
@@ -185,8 +187,8 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 	col[1] = (unsigned char)255*o[0]._color.g*rate;
 	col[2] = (unsigned char)255*o[0]._color.b*rate;
 
-	float a,b,c,d;				// ¶à±ßĞÎËùÔÚµÄÆ½ÃæµÄ·½³ÌÏµÊı ax + by + cz + d = 0
-	// ¼ÆËã ax + by + cz + d = 0
+	float a,b,c,d;				// âˆ‚â€¡Â±ï¬‚â€“Å’Ã€Ë˜â€˜â„ÂµÆ’âˆ†Î©âˆšÃŠÂµÆ’âˆ‘Î©â‰¥ÃƒÅ“ÂµÂ Ë ax + by + cz + d = 0
+	// Âºâˆ†Ã€â€ ax + by + cz + d = 0
 	a = (o[1].y-o[0].y)*(o[2].z-o[0].z)-(o[1].z-o[0].z)*(o[2].y-o[0].y);
 	b = (o[1].z-o[0].z)*(o[2].x-o[0].x)-(o[1].x-o[0].x)*(o[2].z-o[0].z);
 	c = (o[1].x-o[0].x)*(o[2].y-o[0].y)-(o[1].y-o[0].y)*(o[2].x-o[0].x);
@@ -194,9 +196,9 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 	
 	typedef struct XET{
 		float x,dx,ymax;
-		float z;						// ×ó½»µã´¦¶à±ßĞÎËùÔÚÆ½ÃæµÄÉî¶ÈÖµ
-		float dzx;					// ÑØÉ¨ÃèÏßÏòÓÒ×ß¹ıÒ»¸öÏñËØÊ±, ¶à±ßĞÎËùÔÚÆ½ÃæµÄÉî¶ÈÔöÁ¿. ¶àÓÚÆ½Ãæ·½³Ì, dzx = -a/c (c!= 0)
-		float dzy;					// ÑØy·½ÏòÏòÏÂÒÆ¹ıÒ»¸ùÉ¨ÃèÏßÊ±, ¶à±ßĞÎËùÔÚÆ½ÃæµÄÉî¶ÈÔöÁ¿. ¶ÔÓÚÆ½Ãæ·½³Ì, dzy = b/c (c!= 0)
+		float z;						// â—ŠÃ›Î©ÂªÂµâ€Â¥Â¶âˆ‚â€¡Â±ï¬‚â€“Å’Ã€Ë˜â€˜â„âˆ†Î©âˆšÃŠÂµÆ’â€¦Ã“âˆ‚Â»Ã·Âµ
+		float dzx;					// â€”Ã¿â€¦Â®âˆšÃ‹Å“ï¬‚Å“Ãšâ€â€œâ—Šï¬‚Ï€Ëâ€œÂªâˆË†Å“Ã’Ã€Ã¿Â Â±, âˆ‚â€¡Â±ï¬‚â€“Å’Ã€Ë˜â€˜â„âˆ†Î©âˆšÃŠÂµÆ’â€¦Ã“âˆ‚Â»â€˜Ë†Â¡Ã¸. âˆ‚â€¡â€â„âˆ†Î©âˆšÃŠâˆ‘Î©â‰¥Ãƒ, dzx = -a/c (c!= 0)
+		float dzy;					// â€”Ã¿yâˆ‘Î©Å“ÃšÅ“ÃšÅ“Â¬â€œâˆ†Ï€Ëâ€œÂªâˆË˜â€¦Â®âˆšÃ‹Å“ï¬‚Â Â±, âˆ‚â€¡Â±ï¬‚â€“Å’Ã€Ë˜â€˜â„âˆ†Î©âˆšÃŠÂµÆ’â€¦Ã“âˆ‚Â»â€˜Ë†Â¡Ã¸. âˆ‚â€˜â€â„âˆ†Î©âˆšÃŠâˆ‘Î©â‰¥Ãƒ, dzy = b/c (c!= 0)
 		XET * next;
 	}AET,NET;
 	int maxy = 0
@@ -206,8 +208,9 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 		;
 	NET *pNet[1024],*p,*q,*r;
 	AET *pAet = new AET;
+    newc++;
 	pAet->next = nullptr;
-	//¼ÆËã×î¸ßµãºÍ×îµÍµã
+	//Âºâˆ†Ã€â€â—ŠÃ“âˆï¬‚Âµâ€âˆ«Ã•â—ŠÃ“ÂµÃ•Âµâ€
 	for(int i = 0;i<length;i++){
 		if(o[i].y>maxy){
 			maxy = o[i].y;
@@ -216,9 +219,10 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 			miny = o[i].y;
 		}
 	}
-	//³õÊ¼»¯NET±í
+	//â‰¥Ä±Â ÂºÂªÃ˜NETÂ±ÃŒ
 	for(int i=miny;i<=maxy;i++){
 		pNet[i] = new NET;
+        newc++;
 		pNet[i]->next = nullptr;
 	}
 	for(int i = 0;i<length;i++){
@@ -227,6 +231,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 		ib = (i+1)%length;
 		if(o[ia].y > o[i].y){
 			q = new NET;
+            newc++;
 			q->x = (float)o[i].x;
 			q->ymax = (float)o[ia].y;
 			q->dx = ((float)(o[ia].x - o[i].x))/(o[ia].y - o[i].y);
@@ -235,6 +240,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 		}
 		if(o[ib].y > o[i].y){
 			q = new NET;
+            newc++;
 			q->x = (float)o[i].x;
 			q->ymax = (float)o[ib].y;
 			q->dx = ((float)(o[ib].x - o[i].x))/(o[ib].y - o[i].y);
@@ -244,12 +250,12 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 	}
 	for(int i = miny;i<maxy;i++){
 		p = pAet->next;
-		//¸üĞÂ½»µã
+		//âˆÂ¸â€“Â¬Î©ÂªÂµâ€
 		while(p){
 			p->x = p->x + p->dx;
 			p = p->next;
 		}
-		//¸üĞÂºóÅÅĞò
+		//âˆÂ¸â€“Â¬âˆ«Ã›â‰ˆâ‰ˆâ€“Ãš
 		q = pAet;
 		p = pAet->next;
 		q->next = nullptr;
@@ -263,12 +269,13 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 			p = r;
 			q = pAet;
 		}
-		//É¾³ı½áµã
+		//â€¦Ã¦â‰¥ËÎ©Â·Âµâ€
 		q = pAet;
 		p = q->next;
 		while(p){
 			if(p->ymax == i){
 				q->next = p->next;
+                delc++;
 				delete p;
 				p = q->next;
 			}else{
@@ -276,7 +283,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 				q = q->next;
 			}
 		}
-		//Ìí¼Ó½áµã
+		//ÃƒÃŒÂºâ€Î©Â·Âµâ€
 		p = pNet[i]->next;
 		q = pAet;
 		while (p){
@@ -299,7 +306,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 			p = r;
 			q = pAet;
 		}
-		//×ÅÉ«
+		//â—Šâ‰ˆâ€¦Â´
 		p = pAet->next;
 		while(p && p->next){
 			ia = static_cast<int>(p->x);
@@ -319,24 +326,30 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 				}
 				zx += p->dzx;
 			}
-			// ¶à±ßĞÎËùÔÚµÄÆ½Ãæ¶ÔÓ¦ÏÂÒ»ÌõÉ¨ÃèÏßÔÚx=xl´¦µÄÉî¶ÈÎª z = z + dzl * dxl + dzy
-			// ´Ë´¦¿Î¼şÖĞdzlÆäÊµÓ¦Îªdzx?
+			// âˆ‚â€¡Â±ï¬‚â€“Å’Ã€Ë˜â€˜â„ÂµÆ’âˆ†Î©âˆšÃŠâˆ‚â€˜â€Â¶Å“Â¬â€œÂªÃƒÄ±â€¦Â®âˆšÃ‹Å“ï¬‚â€˜â„x=xlÂ¥Â¶ÂµÆ’â€¦Ã“âˆ‚Â»Å’â„¢ z = z + dzl * dxl + dzy
+			// Â¥Ã€Â¥Â¶Ã¸Å’ÂºË›Ã·â€“dzlâˆ†â€°Â Âµâ€Â¶Å’â„¢dzx?
 			p->z += p->dzx* p->dx +p->dzy;
 			p->next->z += p->dzx* p->next->dx +p->next->dzy;
 			p = p->next->next;
 		}
 	}
     for(int i=miny;i<=maxy;i++){
-//        while (pNet[i]->next) {
-//            NET*p=pNet[i]->next,*q=pNet[i];
-//            while (p->next) {
-//                q = p;
-//                p = p->next;
-//            }
-//            delete p;
-//            q->next = nullptr;
-//        }
 		delete pNet[i];
+        delc++;
 	}
+    while (pAet->next) {
+        NET*p=pAet->next,*q=pAet;
+        while (p->next) {
+            q = p;
+            p = p->next;
+        }
+        delete p;
+        delc++;
+        q->next = nullptr;
+    }
     delete pAet;
+    delc++;
+    if (newc!=delc) {
+        printf("warn:memory leak\n");
+    }
 }

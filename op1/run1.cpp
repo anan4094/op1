@@ -128,8 +128,8 @@ void OP2::MainLoop(void){
 }
 
 void OP2::Finalize(void){
-	free(colorBuffer);
-	free(depthBuffer);
+	delete[] colorBuffer;
+	delete[] depthBuffer;
 }
 
 void OP2::Reshape(int width, int height){
@@ -140,11 +140,11 @@ void OP2::Reshape(int width, int height){
 	glLoadIdentity();
 	glOrtho(0, width, 0, height, -1, 1);
 	if (colorBuffer){
-		free(colorBuffer);
+		delete[] colorBuffer;
 		colorBuffer = 0;
 	}
 	if (depthBuffer){
-		free(depthBuffer);
+		delete[] depthBuffer);
 		depthBuffer = 0;
 	}
 	colorBuffer = new GLubyte[width*height*3];
