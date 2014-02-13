@@ -170,15 +170,15 @@ void ptriangles(unsigned char*map,float *dem,int w,int h,pviewpoint vs,int size)
 	}
 }
 
-//∂‡±ﬂ–Œ…®√Ë◊™ªª
+//fill polygon
 void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length){
     int newc=0,delc=0;
 	float light[3]={.57735f,-.57735f,-.57735f};
-	float rate = o[0].nx*light[0]+o[0].ny*light[1]+o[0].nz*light[2];//∆Ωµ»π‚
+	float rate = o[0].nx*light[0]+o[0].ny*light[1]+o[0].nz*light[2];//parallel light
 	if (rate<0){
 		rate=0;
 	}
-	rate +=.4f;//ª∑æ≥π‚
+	rate +=.4f;//ambient light
 	if(rate>1){
 		rate=1;
 	}
@@ -187,7 +187,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 	col[1] = (unsigned char)255*o[0]._color.g*rate;
 	col[2] = (unsigned char)255*o[0]._color.b*rate;
 
-	float a,b,c,d;				// ∂‡±ﬂ–ŒÀ˘‘⁄µƒ∆Ω√Êµƒ∑Ω≥Ãœµ ˝ ax + by + cz + d = 0
+	float a,b,c,d;				// ax + by + cz + d = 0
 	// º∆À„ ax + by + cz + d = 0
 	a = (o[1].y-o[0].y)*(o[2].z-o[0].z)-(o[1].z-o[0].z)*(o[2].y-o[0].y);
 	b = (o[1].z-o[0].z)*(o[2].x-o[0].x)-(o[1].x-o[0].x)*(o[2].z-o[0].z);
@@ -196,9 +196,9 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 	
 	typedef struct XET{
 		float x,dx,ymax;
-		float z;						// ◊ÛΩªµ„¥¶∂‡±ﬂ–ŒÀ˘‘⁄∆Ω√Êµƒ…Ó∂»÷µ
-		float dzx;					// —ÿ…®√ËœﬂœÚ”“◊ﬂπ˝“ª∏ˆœÒÀÿ ±, ∂‡±ﬂ–ŒÀ˘‘⁄∆Ω√Êµƒ…Ó∂»‘ˆ¡ø. ∂‡”⁄∆Ω√Ê∑Ω≥Ã, dzx = -a/c (c!= 0)
-		float dzy;					// —ÿy∑ΩœÚœÚœ¬“∆π˝“ª∏˘…®√Ëœﬂ ±, ∂‡±ﬂ–ŒÀ˘‘⁄∆Ω√Êµƒ…Ó∂»‘ˆ¡ø. ∂‘”⁄∆Ω√Ê∑Ω≥Ã, dzy = b/c (c!= 0)
+		float z;
+		float dzx;					// dzx = -a/c (c!= 0)
+		float dzy;					// dzy = b/c (c!= 0)
 		XET * next;
 	}AET,NET;
 	int maxy = 0
@@ -210,7 +210,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 	AET *pAet = new AET;
     newc++;
 	pAet->next = nullptr;
-	//º∆À„◊Ó∏ﬂµ„∫Õ◊ÓµÕµ„
+
 	for(int i = 0;i<length;i++){
 		if(o[i].y>maxy){
 			maxy = o[i].y;
@@ -219,7 +219,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 			miny = o[i].y;
 		}
 	}
-	//≥ı ºªØNET±Ì
+
 	for(int i=miny;i<=maxy;i++){
 		pNet[i] = new NET;
         newc++;
@@ -250,12 +250,12 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 	}
 	for(int i = miny;i<maxy;i++){
 		p = pAet->next;
-		//∏¸–¬Ωªµ„
+		//update node
 		while(p){
 			p->x = p->x + p->dx;
 			p = p->next;
 		}
-		//∏¸–¬∫Û≈≈–Ú
+		//order node
 		q = pAet;
 		p = pAet->next;
 		q->next = nullptr;
@@ -269,7 +269,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 			p = r;
 			q = pAet;
 		}
-		//…æ≥˝Ω·µ„
+		//remove node
 		q = pAet;
 		p = q->next;
 		while(p){
@@ -283,7 +283,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 				q = q->next;
 			}
 		}
-		//ÃÌº”Ω·µ„
+		//add node
 		p = pNet[i]->next;
 		q = pAet;
 		while (p){
@@ -306,7 +306,7 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 			p = r;
 			q = pAet;
 		}
-		//◊≈…´
+		//draw
 		p = pAet->next;
 		while(p && p->next){
 			ia = static_cast<int>(p->x);
@@ -326,8 +326,8 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 				}
 				zx += p->dzx;
 			}
-			// ∂‡±ﬂ–ŒÀ˘‘⁄µƒ∆Ω√Ê∂‘”¶œ¬“ªÃı…®√Ëœﬂ‘⁄x=xl¥¶µƒ…Ó∂»Œ™ z = z + dzl * dxl + dzy
-			// ¥À¥¶øŒº˛÷–dzl∆‰ µ”¶Œ™dzx?
+			// z = z + dz * dx + dzy
+			// update z
 			p->z += p->dzx* p->dx +p->dzy;
 			p->next->z += p->dzx* p->next->dx +p->next->dzy;
 			p = p->next->next;
