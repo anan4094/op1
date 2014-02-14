@@ -18,13 +18,19 @@
     <ClCompile Include="run.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="run1.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="glgraph.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="glmatrix.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OP2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OP1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vapp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,6 +39,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="glmatrix.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OP1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OP2.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -46,6 +46,7 @@ public:
         glutCreateWindow( title ? title : "OpenGL Application" );
         glutDisplayFunc(DisplayFunc);
         glutReshapeFunc(ReshapeFunc);
+
 #ifdef USE_GL3W
         gl3wInit();
 #else
@@ -78,7 +79,7 @@ public:
     }
 };
 
-#define BEGIN_APP_DECLARATION(appclass)                     \
+#define BEGIN_APP_DECLARATION(appclass,title)               \
 class appclass : public VermillionApplication               \
 {                                                           \
 public:                                                     \
@@ -86,7 +87,14 @@ public:                                                     \
     static VermillionApplication * Create(void)             \
     {                                                       \
         return (s_app = new appclass);                      \
-    }
+    }                                                       \
+	static int run(){                                       \
+		VermillionApplication * app = appclass::Create();   \
+		app->Initialize(title);                             \
+		app->MainLoop();                                    \
+		app->Finalize();                                    \
+		return 0;											\
+	}														\
 
 #define END_APP_DECLARATION()                               \
 };
@@ -107,38 +115,5 @@ void APIENTRY VermillionApplication::DebugOutputCallback(GLenum source,         
 #else
 #define DEBUG_OUTPUT_CALLBACK
 #endif
-
-#define DEFINE_APP(appclass,title)                          \
-VermillionApplication * VermillionApplication::s_app;       \
-                                                            \
-void VermillionApplication::DisplayFunc(void)               \
-{                                                           \
-    s_app->Display();                                       \
-}                                                           \
-                                                            \
-void VermillionApplication::ReshapeFunc(int width,          \
-                                        int height)         \
-{                                                           \
-    s_app->Reshape(width, height);                          \
-}                                                           \
-                                                            \
-void VermillionApplication::MainLoop(void)                  \
-{                                                           \
-    for (;;)                                                \
-        glutMainLoopEvent();                                \
-}                                                           \
-                                                            \
-int main(int argc, char ** argv)                            \
-{                                                           \
-    VermillionApplication * app = appclass::Create();       \
-                                                            \
-    app->Initialize(title);                                 \
-    app->MainLoop();                                        \
-    app->Finalize();                                        \
-                                                            \
-    return 0;                                               \
-}                                                           \
-                                                            \
-DEBUG_OUTPUT_CALLBACK
 
 #endif /* __VAPP_H__ */

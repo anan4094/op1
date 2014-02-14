@@ -1,6 +1,4 @@
-#include "vapp.h"
-#include "glgraph.h"
-#include "glmatrix.h"
+#include "OP2.h"
 #include <stdio.h>
 #include <math.h>
 #define TRA_NUM 12
@@ -31,22 +29,6 @@ viewpoint viewpoints[TRA_NUM*3]={0};
 float stamp = 0;
 volatile int _status;
 const float sqrtthird = .57735f;
-BEGIN_APP_DECLARATION(OP2)
-	virtual void Initialize(const char * title);
-    virtual void Display(bool auto_redraw);
-    virtual void Finalize(void);
-    virtual void Reshape(int width, int height);
-	virtual void MainLoop(void);
-	private:
-		static void Keyboard(unsigned char key, int x, int y);
-		int width;
-		int height;
-		matrix m;
-		matrix3 m3;
-		matrix3 m3p;
-END_APP_DECLARATION()
-
-DEFINE_APP(OP2, "opengl demo 2")
 
 void OP2::Initialize(const char * title){
 	base::Initialize();
@@ -143,7 +125,7 @@ void OP2::Reshape(int width, int height){
 		colorBuffer = 0;
 	}
 	if (depthBuffer){
-		delete[] depthBuffer);
+		delete[] depthBuffer;
 		depthBuffer = 0;
 	}
 	colorBuffer = new GLubyte[width*height*3];

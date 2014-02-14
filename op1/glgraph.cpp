@@ -162,9 +162,9 @@ void ptriangle(unsigned char*map,int w,int h,int *vs){
 
 void ptriangles(unsigned char*map,float *dem,int w,int h,pviewpoint vs,int size){
 	for (int i = 0; i < size; i++){
-		plineByDepth(map,dem,w,h,&vs[0],&vs[1]);
-		plineByDepth(map,dem,w,h,&vs[1],&vs[2]);
-		plineByDepth(map,dem,w,h,&vs[2],&vs[0]);
+		//plineByDepth(map,dem,w,h,&vs[0],&vs[1]);
+		//plineByDepth(map,dem,w,h,&vs[1],&vs[2]);
+		//plineByDepth(map,dem,w,h,&vs[2],&vs[0]);
 		polyFill(map,dem,w,h,vs);
 		vs+=3;
 	}
@@ -188,7 +188,6 @@ void polyFill(unsigned char*map,float *dem,int w,int h, pviewpoint o,int length)
 	col[2] = (unsigned char)255*o[0]._color.b*rate;
 
 	float a,b,c,d;				// ax + by + cz + d = 0
-	// º∆À„ ax + by + cz + d = 0
 	a = (o[1].y-o[0].y)*(o[2].z-o[0].z)-(o[1].z-o[0].z)*(o[2].y-o[0].y);
 	b = (o[1].z-o[0].z)*(o[2].x-o[0].x)-(o[1].x-o[0].x)*(o[2].z-o[0].z);
 	c = (o[1].x-o[0].x)*(o[2].y-o[0].y)-(o[1].y-o[0].y)*(o[2].x-o[0].x);

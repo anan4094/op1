@@ -84,12 +84,16 @@
   <ItemGroup>
     <ClCompile Include="glgraph.cpp" />
     <ClCompile Include="glmatrix.cpp" />
+    <ClCompile Include="OP1.cpp" />
     <ClCompile Include="run.cpp" />
-    <ClCompile Include="run1.cpp" />
+    <ClCompile Include="OP2.cpp" />
+    <ClCompile Include="vapp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="glgraph.h" />
     <ClInclude Include="glmatrix.h" />
+    <ClInclude Include="OP1.h" />
+    <ClInclude Include="OP2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
