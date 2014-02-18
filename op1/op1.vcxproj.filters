@@ -33,6 +33,9 @@
     <ClCompile Include="vapp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="OP3.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="glgraph.h">
@@ -45,6 +48,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="OP2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OP3.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
