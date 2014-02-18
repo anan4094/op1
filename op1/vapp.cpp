@@ -10,8 +10,9 @@ void VermillionApplication::ReshapeFunc(int width,int height){
 }
 
 void VermillionApplication::MainLoop(void){
-    for (;;)
-        glutMainLoopEvent();
+    for (;;){
+        GlutMainLoopEvent();
+    }
 }
 
 DEBUG_OUTPUT_CALLBACK

@@ -105,7 +105,7 @@ void OP2::Display(bool auto_redraw){
 
 void OP2::MainLoop(void){
 	for (;_status;)
-        glutMainLoopEvent(); 
+        GlutMainLoopEvent();
 }
 
 void OP2::Finalize(void){
@@ -114,8 +114,13 @@ void OP2::Finalize(void){
 }
 
 void OP2::Reshape(int width, int height){
+#ifdef WIN32
 	this->width = width-8;
 	this->height = height-8;
+#else
+    this->width = width;
+	this->height = height;
+#endif
     glViewport(0, 0 , width, height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

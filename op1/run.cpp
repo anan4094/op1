@@ -6,7 +6,11 @@ int main(int argc, char ** argv){
 	printf("1.simple demo\n");
 	printf("2.3d graph algorithm\n");
 	printf("please input a number to choose demo:");
+#ifdef WIN32
 	scanf_s("%d",&eg);
+#else
+    scanf("%d",&eg);
+#endif
 	switch (eg)
 	{
 	case 1:

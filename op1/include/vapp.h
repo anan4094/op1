@@ -1,7 +1,19 @@
 #ifndef __VAPP_H__
 #define __VAPP_H__
 
+#ifndef WIN32
+
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#include <GLUT/glut.h>
+#define GlutMainLoopEvent glutCheckLoop
+
+#else
+
 #include "vgl.h"
+#define GlutMainLoopEvent glutMainLoopEvent
+
+#endif
 
 class VermillionApplication
 {
@@ -46,11 +58,12 @@ public:
         glutCreateWindow( title ? title : "OpenGL Application" );
         glutDisplayFunc(DisplayFunc);
         glutReshapeFunc(ReshapeFunc);
-
+#ifdef WIN32
 #ifdef USE_GL3W
         gl3wInit();
 #else
         glewInit();
+#endif
 #endif
 
 #ifdef _DEBUG
