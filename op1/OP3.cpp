@@ -1,6 +1,7 @@
 #include "OP3.h"
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 GLfloat g_cubeVertices[20]={
 	0,0,-0.5f,-0.5f,.5f,
 	1,0,0.5f,-0.5f,.5f,
@@ -58,7 +59,7 @@ void OP3::InitFBO(){
             break;
 
         case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
-            MessageBox(NULL,TEXT("GL_FRAMEBUFFER_UNSUPPORTED_EXT!"),TEXT("ERROR"),MB_OK|MB_ICONEXCLAMATION);
+            //MessageBox(NULL,TEXT("GL_FRAMEBUFFER_UNSUPPORTED_EXT!"),TEXT("ERROR"),MB_OK|MB_ICONEXCLAMATION);
             exit(0);
             break;
      }

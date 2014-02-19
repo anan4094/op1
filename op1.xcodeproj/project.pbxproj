@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		275DB42418B460D700E73DDC /* OP3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 275DB42218B460D700E73DDC /* OP3.cpp */; };
 		27DA444D18B2EF140045E943 /* OP1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27DA444B18B2EF140045E943 /* OP1.cpp */; };
 		27DA444F18B2F05F0045E943 /* vapp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27DA444E18B2F05F0045E943 /* vapp.cpp */; };
 		27DA445118B2F56B0045E943 /* run.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27DA445018B2F56B0045E943 /* run.cpp */; };
@@ -30,6 +31,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		275DB42218B460D700E73DDC /* OP3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OP3.cpp; sourceTree = "<group>"; };
+		275DB42318B460D700E73DDC /* OP3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OP3.h; sourceTree = "<group>"; };
 		27DA444B18B2EF140045E943 /* OP1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OP1.cpp; sourceTree = "<group>"; };
 		27DA444C18B2EF140045E943 /* OP1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OP1.h; sourceTree = "<group>"; };
 		27DA444E18B2F05F0045E943 /* vapp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vapp.cpp; sourceTree = "<group>"; };
@@ -58,6 +61,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		275DB42518B460DB00E73DDC /* demo3 */ = {
+			isa = PBXGroup;
+			children = (
+				275DB42218B460D700E73DDC /* OP3.cpp */,
+				275DB42318B460D700E73DDC /* OP3.h */,
+			);
+			name = demo3;
+			sourceTree = "<group>";
+		};
 		27DA445518B2FE150045E943 /* demo1 */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,8 +121,9 @@
 			isa = PBXGroup;
 			children = (
 				27DA445718B2FE360045E943 /* kit */,
-				27DA445618B2FE230045E943 /* demo2 */,
 				27DA445518B2FE150045E943 /* demo1 */,
+				27DA445618B2FE230045E943 /* demo2 */,
+				275DB42518B460DB00E73DDC /* demo3 */,
 				27DA445018B2F56B0045E943 /* run.cpp */,
 			);
 			path = op1;
@@ -180,6 +193,7 @@
 				27DA444D18B2EF140045E943 /* OP1.cpp in Sources */,
 				27ED6F3618A9B5F800FFC705 /* glgraph.cpp in Sources */,
 				27DA445118B2F56B0045E943 /* run.cpp in Sources */,
+				275DB42418B460D700E73DDC /* OP3.cpp in Sources */,
 				27DA445418B2FD300045E943 /* OP2.cpp in Sources */,
 				27DA444F18B2F05F0045E943 /* vapp.cpp in Sources */,
 				27ED6F3718A9B5F800FFC705 /* glmatrix.cpp in Sources */,

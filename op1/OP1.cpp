@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <math.h>
 
-#define X .525731112119133606
-#define Z .850650808352039932
+#define X .525731112119133606f
+#define Z .850650808352039932f
 
 void OP1::Initialize(const char * title){
 	base::Initialize();
@@ -70,8 +70,8 @@ void subdivide(float *v1,float *v2,float *v3,int depth){
 void OP1::Display(bool auto_redraw){
 	static GLfloat angle = 0;
 	angle += 0.06f;
-	glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);//清空屏幕上的颜色
-    glColor3f (1.0, 1.0, 0.0);//设置当前画笔颜色
+	glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    glColor3f (1.0, 1.0, 0.0);
 	
 	static const GLfloat light_position[] = {1.0f, -1.0f, -1.0f, 1.0f};
     static const GLfloat light_ambient[]   = {0.1f, 0.1f, 0.1f, 1.0f};
