@@ -1,6 +1,7 @@
 #ifndef __OP2_H__
 #define __OP2_H__
 #include "vapp.h"
+#include "Timer.h"
 #include "glgraph.h"
 #include "glmatrix.h"
 
@@ -17,5 +18,6 @@ BEGIN_APP_DECLARATION(OP2,"opengl demo 2")
 		matrix m;
 		matrix3 m3;
 		matrix3 m3p;
+		Timer timer;
 END_APP_DECLARATION()
 #endif

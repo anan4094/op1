@@ -46,6 +46,7 @@ void OP2::Initialize(const char * title){
 	loadIdentityMatrix(&this->m);
 	loadIdentityMatrix3(&this->m3p);
 	perspective(&this->m3p,290,410,-300,300,300,-300);
+	timer.start();
 }
 void OP2::Keyboard(unsigned char key, int x, int y){
 	if(key == 'Q' || key == 'q'|| key == '\27'|| key == '\x1b'){
@@ -79,8 +80,10 @@ void OP2::Display(bool auto_redraw){
 	for(int i=0;i<width*height;i++){
 		depthBuffer[i]=9999;
 	}
+	double elapsedTime = timer.getElapsedTime();
 	//2d test
-	stamp+=.02f;
+	stamp+=(float)(elapsedTime);
+	timer.start();
 	/*loadIdentityMatrix(&this->m);
 	rotate(&this->m,stamp);
 	transition(&this->m,240,240);

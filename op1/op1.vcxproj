@@ -82,20 +82,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dloveBmp.cpp" />
     <ClCompile Include="glgraph.cpp" />
     <ClCompile Include="glmatrix.cpp" />
     <ClCompile Include="OP1.cpp" />
     <ClCompile Include="OP3.cpp" />
     <ClCompile Include="run.cpp" />
     <ClCompile Include="OP2.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="vapp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dloveBmp.h" />
     <ClInclude Include="glgraph.h" />
     <ClInclude Include="glmatrix.h" />
     <ClInclude Include="OP1.h" />
     <ClInclude Include="OP2.h" />
     <ClInclude Include="OP3.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
