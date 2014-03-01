@@ -1,6 +1,5 @@
 #include "dloveBmp.h"
 #include <stdio.h>
-#include <malloc.h>
 #define mTostr(x) #x
 #define mLink(x,y) x##y
 using namespace dlove; 
@@ -16,7 +15,7 @@ Bmp::Bmp(uint32 _width,uint32 _height,uint32 _xpels,uint32 _ypels):
 
 	int bmpPixelSize=this->bytesArow*height;
 	this->size=bmpPixelSize+54;
-	rgbArray=(uint8*)malloc(bmpPixelSize);
+	rgbArray= new uint8[bmpPixelSize];
 }
 
 #define mReadAttr(attr)	\
@@ -44,7 +43,7 @@ Bmp::Bmp(const char *filename){
 	this->alignBytes=getAlignBytes(this->width);
 	this->bytesArow=pixelSize/this->height;
 
-	this->rgbArray=(uint8*)malloc(pixelSize);
+	this->rgbArray=new uint8[pixelSize];
 	mGoto(0x36);
 	fread((void*)rgbArray,sizeof(uint8),pixelSize,bmpfile);
 
@@ -52,7 +51,7 @@ Bmp::Bmp(const char *filename){
 }
 
 Bmp::~Bmp(){
-	free(this->rgbArray);
+	delete []this->rgbArray;
 }
 
 uint8* Bmp::getPixelAt(int x,int y)const{

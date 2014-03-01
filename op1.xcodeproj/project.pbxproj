@@ -16,6 +16,8 @@
 		27ED6F3718A9B5F800FFC705 /* glmatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27ED6F3218A9B5F800FFC705 /* glmatrix.cpp */; };
 		27ED6F3F18A9BE4400FFC705 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ED6F3E18A9BE4400FFC705 /* OpenGL.framework */; };
 		27ED6F4118A9BF1300FFC705 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27ED6F4018A9BF1300FFC705 /* GLUT.framework */; };
+		27F0198518C1E31A00640B9A /* dloveBmp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27F0198318C1E31A00640B9A /* dloveBmp.cpp */; };
+		27F0198818C1E33100640B9A /* Timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 27F0198618C1E33100640B9A /* Timer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +48,10 @@
 		27ED6F3318A9B5F800FFC705 /* glmatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glmatrix.h; sourceTree = "<group>"; };
 		27ED6F3E18A9BE4400FFC705 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		27ED6F4018A9BF1300FFC705 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		27F0198318C1E31A00640B9A /* dloveBmp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dloveBmp.cpp; sourceTree = "<group>"; };
+		27F0198418C1E31A00640B9A /* dloveBmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dloveBmp.h; sourceTree = "<group>"; };
+		27F0198618C1E33100640B9A /* Timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Timer.cpp; sourceTree = "<group>"; };
+		27F0198718C1E33100640B9A /* Timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +97,10 @@
 		27DA445718B2FE360045E943 /* kit */ = {
 			isa = PBXGroup;
 			children = (
+				27F0198618C1E33100640B9A /* Timer.cpp */,
+				27F0198718C1E33100640B9A /* Timer.h */,
+				27F0198318C1E31A00640B9A /* dloveBmp.cpp */,
+				27F0198418C1E31A00640B9A /* dloveBmp.h */,
 				27DA444E18B2F05F0045E943 /* vapp.cpp */,
 				27ED6F3018A9B5F800FFC705 /* glgraph.cpp */,
 				27ED6F3118A9B5F800FFC705 /* glgraph.h */,
@@ -196,6 +206,8 @@
 				275DB42418B460D700E73DDC /* OP3.cpp in Sources */,
 				27DA445418B2FD300045E943 /* OP2.cpp in Sources */,
 				27DA444F18B2F05F0045E943 /* vapp.cpp in Sources */,
+				27F0198818C1E33100640B9A /* Timer.cpp in Sources */,
+				27F0198518C1E31A00640B9A /* dloveBmp.cpp in Sources */,
 				27ED6F3718A9B5F800FFC705 /* glmatrix.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
